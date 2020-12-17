@@ -24,6 +24,8 @@ using WinRT.Core.Api.Extensions;
 using WinRT.Core.Api.AOP;
 using WinRT.Core.Common.MemoryCache;
 using Microsoft.Extensions.Caching.Memory;
+using WinRT.Core.Common.Redis;
+using StackExchange.Redis;
 
 namespace WinRT.Core
 {
@@ -39,7 +41,7 @@ namespace WinRT.Core
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            // 注入内存服务
             services.AddScoped<ICaching, MemoryCaching>();
             services.AddSingleton<IMemoryCache>(factory =>
             {
@@ -51,7 +53,22 @@ namespace WinRT.Core
             // 注入 appsettings.json操作类
             services.AddSingleton(new Appsettings(Configuration));
             services.AddSwaggerSetup();
-      
+
+            // 注入redis接口和类
+            services.AddTransient<IRedisBasketRepository, RedisBasketRepository>();
+            // 配置启动Redis服务，虽然可能影响项目启动速度，但是不能在运行的时候报错，所以是合理的
+            services.AddSingleton(sp =>
+            {
+                //获取连接字符串
+                string redisConfiguration = Appsettings.app(new string[] { "Redis", "ConnectionString" });
+
+                var configuration = ConfigurationOptions.Parse(redisConfiguration, true);
+
+                configuration.ResolveDns = true;
+
+                return ConnectionMultiplexer.Connect(configuration);
+            });
+
             // 1【授权，好处就是不用在controller中，写多个 roles 。
             // 不同的角色建立不同的策略
             // 然后这么写 [Authorize(Policy = "Admin")]
