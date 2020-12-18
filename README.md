@@ -1,8 +1,8 @@
 # WinRT.Core.Api
  
-#基于.netCore Api 3.1后台框架
+## 基于.netCore Api 3.1后台框架
 
-#功能与进度:
+## 功能与进度:
  框架模块
 - 采用泛型仓储+服务+接口的形式封装框架
 - 异步 async/await 开发
