@@ -1,12 +1,12 @@
 # WinRT.Core.Api
  
-##基于.netCore Api 3.1后台框架
+#基于.netCore Api 3.1后台框架
 
 功能与进度:
  框架模块
-	- 采用泛型仓储+服务+接口的形式封装框架
-	- 异步 async/await 开发
-	- 接入国产数据库ORM组件 —— SqlSugar，封装数据库操作
+- 采用泛型仓储+服务+接口的形式封装框架
+- 异步 async/await 开发
+- 接入国产数据库ORM组件 —— SqlSugar，封装数据库操作
 
  组件模块
   - 使用Swagger做api文档，并提供api版本控制
