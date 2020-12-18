@@ -30,7 +30,8 @@ namespace WinRT.Core.Api.Extensions
 
             if (!File.Exists(servicesDllFile)) /* && File.Exists(repositoryDllFile))*/ 
             {
-                var msg = "Repository.dll和service.dll 丢失，因为项目解耦了，所以需要先F6编译，再F5运行，请检查 bin 文件夹，并拷贝。";
+                //var msg = "Repository.dll和service.dll 丢失，因为项目解耦了，所以需要先F6编译，再F5运行，请检查 bin 文件夹，并拷贝。";
+                var msg = "service.dll 丢失，因为项目解耦了，所以需要先F6编译，再F5运行，请检查 bin 文件夹，并拷贝。";
                 throw new Exception(msg);
             }
 

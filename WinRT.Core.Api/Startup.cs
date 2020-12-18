@@ -50,6 +50,7 @@ namespace WinRT.Core
             });
 
             services.AddHttpContextAccessor();
+
             // 注入 appsettings.json操作类
             services.AddSingleton(new Appsettings(Configuration));
             services.AddSwaggerSetup();
@@ -68,6 +69,7 @@ namespace WinRT.Core
 
                 return ConnectionMultiplexer.Connect(configuration);
             });
+
 
             // 1【授权，好处就是不用在controller中，写多个 roles 。
             // 不同的角色建立不同的策略
@@ -165,6 +167,21 @@ namespace WinRT.Core
             #endregion
 
 
+            services.AddCors(c =>
+            {
+                //一般采用这种方法
+                c.AddPolicy("LimitRequests", policy =>
+                {
+                    policy
+                    //  Adds the specified origins to the policy.
+                    // 支持多个域名端口，注意端口号后不要带/斜杆：比如localhost:8000/，是错的
+                    // 注意，http://127.0.0.1:5401 和 http://localhost:5401 是不一样的，尽量写两个
+                    .WithOrigins("https://fiddle.jshell.net")
+                    .AllowAnyHeader()//Ensures that the policy allows any header.
+                    .AllowAnyMethod();
+                });
+            });
+
             //读取配置文件
             //var audienceConfig = Configuration.GetSection("Audience");
             //var symmetricKeyAsBase64 = AppSecretConfig.Audience_Secret_String;
@@ -218,6 +235,7 @@ namespace WinRT.Core
             //         }
             //     };
             // });
+
             services.AddControllers();
         }
 
@@ -267,7 +285,11 @@ namespace WinRT.Core
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseSwaggerMildd();
+
+            //将 CORS 中间件添加到 web 应用程序管线中, 以允许跨域请求。
+            app.UseCors("LimitRequests");
 
             app.UseRouting();
 

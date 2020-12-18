@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace WinRT.Core.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
 
 
     public class ValuesController:ControllerBase
@@ -38,6 +38,13 @@ namespace WinRT.Core.Api.Controllers
         public string Get2()
         {
             return "测试CacheAOP缓存";
+        }
+
+
+        [HttpPost]
+        public ActionResult TestCORSForVue()
+        {
+            return Ok("TestCORS");
         }
     }
 }

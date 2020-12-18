@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WinRT.Core.Common.Redis;
 using WinRT.Core.Helper;
 using WinRT.Core.IServices;
 using WinRT.Core.Model.Models;
@@ -29,10 +30,17 @@ namespace WinRT.Core.Controllers.V2
 
         private readonly IAdvertisementServices _advertisementServices;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IAdvertisementServices advertisementServices)
+
+        private readonly IRedisBasketRepository _redisBasketRepository;
+
+        public WeatherForecastController(
+            ILogger<WeatherForecastController> logger, 
+            IAdvertisementServices advertisementServices,
+            IRedisBasketRepository redisBasketRepository)
         {
             _logger = logger;
             _advertisementServices = advertisementServices;
+            _redisBasketRepository = redisBasketRepository;
         }
 
         /// <summary>
@@ -71,6 +79,25 @@ namespace WinRT.Core.Controllers.V2
         public async Task<IList<Advertisement>> GetAdvertisement2(int id)
         {
             return await _advertisementServices.GetAdvertisement(id);
+        }
+
+        [HttpGet]
+        [CustomRoute(ApiVersions.V2, "GetAdvertisementInvolveRedis")]
+        public async Task<IList<Advertisement>> GetAdvertisementInvolveRedis(int id)
+        {
+            IList<Advertisement> advertisementList = new List<Advertisement>();
+            string key = "Redis.Advertisement" + id.ToString();
+            var value = await _redisBasketRepository.Get<IList<Advertisement>>(key);
+            if (value != null)
+            {
+                advertisementList = value;
+            }
+            else
+            {
+                advertisementList = await _advertisementServices.GetAdvertisement(id);
+                await _redisBasketRepository.Set(key, advertisementList, TimeSpan.FromHours(2));//缓存2小时
+            }
+            return advertisementList;
         }
     }
 }
