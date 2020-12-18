@@ -1,6 +1,6 @@
 # WinRT.Core.Api
  
-## 基于.netCore Api 3.1后台框架
+## 开发基于.netCore Api 3.1后台框架
 
 ## 功能:
  框架模块
