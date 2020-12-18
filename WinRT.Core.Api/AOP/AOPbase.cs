@@ -10,6 +10,7 @@ using WinRT.Core.Common;
 
 namespace WinRT.Core.Api.AOP
 {
+
     public abstract  class AOPbase : IInterceptor
     {      /// <summary>
            /// AOP的拦截方法

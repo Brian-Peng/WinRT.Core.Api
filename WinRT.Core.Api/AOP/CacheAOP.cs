@@ -25,7 +25,7 @@ namespace WinRT.Core.Api.AOP
             var method = invocation.MethodInvocationTarget ?? invocation.Method;
             //对当前方法的特性验证
             var qCachingAttribute = method.GetCustomAttributes(true).FirstOrDefault(x => x.GetType() == typeof(CachingAttribute)) as CachingAttribute;
-            //只有那些指定的才可以被缓存，需要验证
+            //只有那些指定的才可以被缓存，需要验证，批量注入，采用特性筛选代理
             if (qCachingAttribute != null)
             {
                 //获取自定义缓存键

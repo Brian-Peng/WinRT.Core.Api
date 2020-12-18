@@ -56,7 +56,8 @@ namespace WinRT.Core.Api.Extensions
             builder.RegisterAssemblyTypes(assemblysServices)
                       .AsImplementedInterfaces()
                       .InstancePerDependency()
-                      .EnableInterfaceInterceptors()//引用Autofac.Extras.DynamicProxy;
+                      //引用Autofac.Extras.DynamicProxy;
+                      .EnableInterfaceInterceptors()
                       //允许将拦截器服务的列表分配给注册。Autofac它只对接口方法 或者 虚virtual方法或者重写方法override才能起拦截作用。  
                       .InterceptedBy(cacheType.ToArray());
                                                           //.InterceptedBy(
