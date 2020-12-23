@@ -40,10 +40,12 @@ namespace WinRT.Core.Api.AOP
                 }
                 //去执行当前的方法
                 invocation.Proceed();
+
                 //存入缓存
                 if (!string.IsNullOrWhiteSpace(cacheKey))
                 {
-                    _cache.Set(cacheKey, invocation.ReturnValue);
+                    _cache.Set(cacheKey, invocation.ReturnValue, TimeSpan.FromMinutes(qCachingAttribute.AbsoluteExpiration));
+                    //_cache.Set(cacheKey, invocation.ReturnValue);
                 }
             }
             else

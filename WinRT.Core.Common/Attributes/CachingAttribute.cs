@@ -11,8 +11,10 @@ namespace WinRT.Core.Common.Attributes
     public class CachingAttribute: Attribute
     {
         /// <summary>
-        /// //缓存绝对过期时间默认为30分钟
+        /// 缓存绝对过期时间
         /// </summary>
         public int AbsoluteExpiration { get; set; } = 30;
     }
+
+   
 }

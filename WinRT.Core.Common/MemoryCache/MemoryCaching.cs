@@ -24,5 +24,10 @@ namespace WinRT.Core.Common.MemoryCache
         {
             _cache.Set(cacheKey, cacheValue, TimeSpan.FromSeconds(7200));
         }
+
+        public void Set(string cacheKey, object cacheValue, TimeSpan absoluteExpirationRelativeToNow)
+        {
+            _cache.Set(cacheKey, cacheValue, absoluteExpirationRelativeToNow);
+        }
     }
 }

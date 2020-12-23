@@ -11,5 +11,7 @@ namespace WinRT.Core.Common.MemoryCache
     {
         object Get(string cacheKey);
         void Set(string cacheKey, object cacheValue);
+
+        void Set(string cacheKey, object cacheValue, TimeSpan absoluteExpirationRelativeToNow);
     }
 }
