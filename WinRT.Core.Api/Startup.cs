@@ -26,6 +26,8 @@ using WinRT.Core.Common.MemoryCache;
 using Microsoft.Extensions.Caching.Memory;
 using WinRT.Core.Common.Redis;
 using StackExchange.Redis;
+using AutoMapper;
+using WinRT.Core.Api.AutoMapper;
 
 namespace WinRT.Core
 {
@@ -41,6 +43,10 @@ namespace WinRT.Core
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // 注入模型映射服务
+            //services.AddAutoMapper(typeof(Startup));//这是AutoMapper的2.0新特性
+            services.AddAutoMapperSetup();
+
             // 注入内存服务
             services.AddScoped<ICaching, MemoryCaching>();
             services.AddSingleton<IMemoryCache>(factory =>

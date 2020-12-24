@@ -44,6 +44,26 @@
             </summary>
             <param name="invocation">包含被拦截方法的信息</param>
         </member>
+        <member name="T:WinRT.Core.Api.AutoMapper.AutoMapperConfig">
+            <summary>
+            静态全局 AutoMapper 配置文件
+            </summary>
+        </member>
+        <member name="T:WinRT.Core.Api.AutoMapper.AutoMapperSetup">
+            <summary>
+            Automapper 启动服务
+            </summary>
+        </member>
+        <member name="T:WinRT.Core.Api.AutoMapper.CustomProfile">
+            <summary>
+            services.AddAutoMapper是会自动找到所有继承了Profile的类然后进行配置，如果不想一个一个的配置，可以用接口的形式，批量导入
+            </summary>
+        </member>
+        <member name="M:WinRT.Core.Api.AutoMapper.CustomProfile.#ctor">
+            <summary>
+            配置构造函数，用来创建关系映射
+            </summary>
+        </member>
         <member name="T:WinRT.Core.Authorizations.Policys.JwtToken">
             <summary>
             JWTToken生成类
