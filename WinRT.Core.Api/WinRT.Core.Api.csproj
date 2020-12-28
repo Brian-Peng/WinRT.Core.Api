@@ -20,6 +20,8 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.3.3" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="6.0.1" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
+		<PackageReference Include="log4net" Version="2.0.12" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="5.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

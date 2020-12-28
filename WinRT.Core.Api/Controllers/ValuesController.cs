@@ -37,6 +37,7 @@ namespace WinRT.Core.Api.Controllers
         [Route("Get2")]
         public string Get2()
         {
+
             return "测试CacheAOP缓存";
         }
 

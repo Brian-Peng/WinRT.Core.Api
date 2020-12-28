@@ -103,16 +103,19 @@ namespace WinRT.Core
             // 令牌验证参数，之前我们都是写在AddJwtBearer里的，这里提出来了
             var tokenValidationParameters = new TokenValidationParameters
             {
+                //  3+2的形式
                 ValidateIssuerSigningKey = true,//验证发行人的签名密钥
                 IssuerSigningKey = signingKey,
+
                 ValidateIssuer = true,//验证发行人
                 ValidIssuer = audienceConfig["Issuer"],//发行人
+
                 ValidateAudience = true,//验证订阅人
                 ValidAudience = audienceConfig["Audience"],//订阅人
+
                 ValidateLifetime = true,//验证生命周期
                 ClockSkew = TimeSpan.Zero,//这个是定义的过期的缓存时间
                 RequireExpirationTime = true,//是否要求过期
-
             };
             var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
 
@@ -258,32 +261,7 @@ namespace WinRT.Core
             //左边的是实现类，右边的As是接口
             //builder.RegisterType<AdvertisementServices>().As<IAdvertisementServices>();
         }
-
-        ///// <summary>
-        /////  Autofac 容器
-        ///// </summary>
-        ///// <param name="builder"></param>
-        //public void ConfigureContainer(ContainerBuilder builder)
-        //{
-        //    // 泛型仓储来代替具体仓储
-        //    builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IBaseRepository<>)).InstancePerDependency();//注册仓储
-
-        //    // 注入所有服务，服务程序集注入方式 —— 未解耦
-        //    var assemblysServices = Assembly.Load("WinRT.Core.Services");
-
-        //    builder.RegisterAssemblyTypes(assemblysServices)
-        //              .AsImplementedInterfaces()
-        //              .InstancePerDependency()
-        //              .EnableInterfaceInterceptors();//引用Autofac.Extras.DynamicProxy;
-
-
-        //    //var assemblysRepository = Assembly.Load("WinRT.Core.Repository");
-
-        //    //builder.RegisterAssemblyTypes(assemblysRepository)
-        //    //            .AsImplementedInterfaces()
-        //    //           .InstancePerDependency();
-
-        //}
+    
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
