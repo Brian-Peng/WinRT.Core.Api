@@ -40,6 +40,7 @@ namespace WinRT.Core
 
         public IConfiguration Configuration { get; }
 
+        // 将服务添加到容器，服务于Configure()，在Configure()方法之前运行
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -76,23 +77,6 @@ namespace WinRT.Core
                 return ConnectionMultiplexer.Connect(configuration);
             });
 
-
-            // 1【授权，好处就是不用在controller中，写多个 roles 。
-            // 不同的角色建立不同的策略
-            // 然后这么写 [Authorize(Policy = "Admin")]
-            //services.AddAuthorization(options =>
-            //{
-            //    // 基于Claim数组的角色的
-            //    options.AddPolicy("Client", policy => policy.RequireRole("Client").Build());
-            //    options.AddPolicy("Admin", policy => policy.RequireRole("Admin").Build());
-            //    options.AddPolicy("SystemOrAdmin", policy => policy.RequireRole("Admin", "System").Build());
-            //    options.AddPolicy("SystemAndAdmin", policy => policy.RequireRole("Admin").RequireRole("System").Build());
-
-            //    // 基于声明的Claim数组的
-
-            //    // 基于需要的Requirement，完全自定义
-            //});
-
             #region JWT Token Service
             //读取配置文件
             var audienceConfig = Configuration.GetSection("Audience");
@@ -103,7 +87,7 @@ namespace WinRT.Core
             // 令牌验证参数，之前我们都是写在AddJwtBearer里的，这里提出来了
             var tokenValidationParameters = new TokenValidationParameters
             {
-                //  3+2的形式
+                //  3+2的形式 ，验证的格式要与生成jwt令牌的格式一样
                 ValidateIssuerSigningKey = true,//验证发行人的签名密钥
                 IssuerSigningKey = signingKey,
 
@@ -115,6 +99,7 @@ namespace WinRT.Core
 
                 ValidateLifetime = true,//验证生命周期
                 ClockSkew = TimeSpan.Zero,//这个是定义的过期的缓存时间
+
                 RequireExpirationTime = true,//是否要求过期
             };
             var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
@@ -151,7 +136,7 @@ namespace WinRT.Core
                 //options.AddPolicy("SystemOrAdmin",
                 //    policy => policy.RequireRole("Admin", "System"));
 
-                // 自定义基于策略的授权权限
+                // 自定义基于策略的授权权限，采用基于RBAC（Role-Based Access Control ）基于角色的访问控制。
                 options.AddPolicy("Permission",
                      policy => policy.Requirements.Add(permissionRequirement));
             })
@@ -261,7 +246,8 @@ namespace WinRT.Core
             //左边的是实现类，右边的As是接口
             //builder.RegisterType<AdvertisementServices>().As<IAdvertisementServices>();
         }
-    
+
+        // 使用此方法配置HTTP请求管道
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -283,6 +269,7 @@ namespace WinRT.Core
             // 开启授权中间件
             app.UseAuthorization();
 
+            // 这个是一个短路中间件，表示 http 请求到了这里就不往下走了. 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

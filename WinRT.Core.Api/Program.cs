@@ -11,8 +11,15 @@ using System.Threading.Tasks;
 
 namespace WinRT.Core
 {
+    /// <summary>
+    /// 这个Program是程序的入口, 看起来很眼熟, 是因为asp.net core application实际就是控制台程序(console application).
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        ///  Main方法里面的内容主要是用来配置和运行程序的。
+        /// </summary>
+        /// <param name="args"></param>
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
@@ -26,6 +33,7 @@ namespace WinRT.Core
                 {
                     // Startup类服务于Program类
                     webBuilder
+                    // 这句话表示在程序启动的时候, 我们会调用Startup这个类.
                     .UseStartup<Startup>()
                     // 注册log4net服务，对ILogger接口进行实现
                     .ConfigureLogging((hostingContext, builder) =>

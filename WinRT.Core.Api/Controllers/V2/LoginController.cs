@@ -94,10 +94,11 @@ namespace WinRT.Core.Controllers.V2
                 // 查询用户拥有哪些角色
                 var userRoles = await _sysUserInfoServices.GetUserRoleNameStr(name, pass);
                 var claims = new List<Claim> {
+                    // 添加用户
                     new Claim(ClaimTypes.Name, name),
                     new Claim(ClaimTypes.Expiration, DateTime.Now.AddSeconds(_requirement.Expiration.TotalSeconds).ToString())
                 };
-
+                // 添加角色
                 claims.AddRange(userRoles.Split(',').Select(s => new Claim(ClaimTypes.Role, s)));
 
                 var data = await _roleModulePermissionServices.RoleModuleMaps();
@@ -113,7 +114,7 @@ namespace WinRT.Core.Controllers.V2
                 _requirement.Permissions = list;
 
                 try {
-
+                    //  颁发token令牌
                     var token = JwtToken.BuildJwtToken(claims.ToArray(), _requirement);
                     return new MessageModel<TokenInfoViewModel>()
                     {

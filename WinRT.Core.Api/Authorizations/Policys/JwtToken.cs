@@ -14,10 +14,12 @@ namespace WinRT.Core.Authorizations.Policys
     /// </summary>
     public class JwtToken
     {
+
         /// <summary>
         /// 获取基于JWT的Token
         /// </summary>
-        /// <param name="claims">需要在登陆的时候配置</param>
+        /// <param name="claims">需要在登陆的时候配置,”Claim 是对被验证主体特征的一种表述，比如：登录用户名是...，email是...，用户Id是...，其中的“登录用户名”，“email”，“用户Id”就是ClaimType。
+        ///</param>
         /// <param name="permissionRequirement">在startup中定义的参数</param>
         /// <returns></returns>
         public static dynamic BuildJwtToken(Claim[] claims, PermissionRequirement permissionRequirement)

@@ -70,12 +70,13 @@
             </summary>
         </member>
         <member name="M:WinRT.Core.Authorizations.Policys.JwtToken.BuildJwtToken(System.Security.Claims.Claim[],WinRT.Core.Authorizations.Policys.PermissionRequirement)">
-            <summary>
-            获取基于JWT的Token
-            </summary>
-            <param name="claims">需要在登陆的时候配置</param>
-            <param name="permissionRequirement">在startup中定义的参数</param>
-            <returns></returns>
+             <summary>
+             获取基于JWT的Token
+             </summary>
+             <param name="claims">需要在登陆的时候配置,”Claim 是对被验证主体特征的一种表述，比如：登录用户名是...，email是...，用户Id是...，其中的“登录用户名”，“email”，“用户Id”就是ClaimType。
+            </param>
+             <param name="permissionRequirement">在startup中定义的参数</param>
+             <returns></returns>
         </member>
         <member name="T:WinRT.Core.Authorizations.Policys.PermissionHandler">
             <summary>
@@ -303,6 +304,17 @@
             <summary>
             职能
             </summary>
+        </member>
+        <member name="T:WinRT.Core.Program">
+            <summary>
+            这个Program是程序的入口, 看起来很眼熟, 是因为asp.net core application实际就是控制台程序(console application).
+            </summary>
+        </member>
+        <member name="M:WinRT.Core.Program.Main(System.String[])">
+            <summary>
+             Main方法里面的内容主要是用来配置和运行程序的。
+            </summary>
+            <param name="args"></param>
         </member>
     </members>
 </doc>
