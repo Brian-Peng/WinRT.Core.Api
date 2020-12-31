@@ -38,12 +38,12 @@ namespace WinRT.Core.Api.Extensions
 
             // AOP 开关，如果想要打开指定的功能，只需要在 appsettigns.json 对应对应 true 就行。
             var cacheType = new List<Type>();
-            if (Appsettings.app(new string[] { "AppSettings", "MemoryCachingAOP", "Enabled" }).ObjToBool()) // 按照 appsettigns.json中的层级的顺序，依次写出来
+            if (Helper.Appsettings.app(new string[] { "AppSettings", "MemoryCachingAOP", "Enabled" }).ObjToBool()) // 按照 appsettigns.json中的层级的顺序，依次写出来
             {
                 builder.RegisterType<CacheAOP>();
                 cacheType.Add(typeof(CacheAOP));
             }
-            if (Appsettings.app(new string[] { "AppSettings", "LogAOP", "Enabled" }).ObjToBool())
+            if (Helper.Appsettings.app(new string[] { "AppSettings", "LogAOP", "Enabled" }).ObjToBool())
             {
                 builder.RegisterType<LogAOP>();
                 cacheType.Add(typeof(LogAOP));

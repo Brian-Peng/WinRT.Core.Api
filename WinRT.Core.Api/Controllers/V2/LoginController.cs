@@ -21,7 +21,10 @@ namespace WinRT.Core.Controllers.V2
     public class LoginController : Controller
     {
         private readonly ISysUserInfoServices _sysUserInfoServices;
+
+        // 直接依赖注入类，services.AddSingleton(permissionRequirement);// 将授权必要类注入生命周期内
         private readonly PermissionRequirement _requirement;
+
         private readonly IRoleModulePermissionServices _roleModulePermissionServices;
 
 

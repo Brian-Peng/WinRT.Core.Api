@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WinRT.Core.Api.Extensions;
 
 namespace WinRT.Core.Api.Controllers
 {
@@ -11,16 +12,16 @@ namespace WinRT.Core.Api.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        private readonly Rootobject _rootobject;
+
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(Rootobject rootobject)
         {
-            _logger = logger;
+            _rootobject = rootobject;
         }
 
         [HttpGet]

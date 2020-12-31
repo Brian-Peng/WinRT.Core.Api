@@ -28,6 +28,7 @@ using WinRT.Core.Common.Redis;
 using StackExchange.Redis;
 using AutoMapper;
 using WinRT.Core.Api.AutoMapper;
+using AspNetCoreRateLimit;
 
 namespace WinRT.Core
 {
@@ -38,12 +39,17 @@ namespace WinRT.Core
             Configuration = configuration;
         }
 
+        /// <summary>
+        ///  用来操作appsettings.json的接口
+        /// </summary>
         public IConfiguration Configuration { get; }
 
         // 将服务添加到容器，服务于Configure()，在Configure()方法之前运行
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIpPolicyRateLimitSetup(Configuration);
+
             // 注入模型映射服务
             //services.AddAutoMapper(typeof(Startup));//这是AutoMapper的2.0新特性
             services.AddAutoMapperSetup();
@@ -59,7 +65,7 @@ namespace WinRT.Core
             services.AddHttpContextAccessor();
 
             // 注入 appsettings.json操作类
-            services.AddSingleton(new Appsettings(Configuration));
+            services.AddSingleton(new Helper.Appsettings(Configuration));
             services.AddSwaggerSetup();
 
             // 注入redis接口和类
@@ -68,7 +74,7 @@ namespace WinRT.Core
             services.AddSingleton(sp =>
             {
                 //获取连接字符串
-                string redisConfiguration = Appsettings.app(new string[] { "Redis", "ConnectionString" });
+                string redisConfiguration = Helper.Appsettings.app(new string[] { "Redis", "ConnectionString" });
 
                 var configuration = ConfigurationOptions.Parse(redisConfiguration, true);
 
@@ -79,7 +85,7 @@ namespace WinRT.Core
 
             #region JWT Token Service
             //读取配置文件
-            var audienceConfig = Configuration.GetSection("Audience");
+            var audienceConfig = Configuration.GetSection("Audience"); // 获取具有指定key的配置子节
             var symmetricKeyAsBase64 = AppSecretConfig.Audience_Secret_String;
             var keyByteArray = Encoding.ASCII.GetBytes(symmetricKeyAsBase64);
             var signingKey = new SymmetricSecurityKey(keyByteArray);
@@ -152,14 +158,12 @@ namespace WinRT.Core
                 o.TokenValidationParameters = tokenValidationParameters;
             });
 
-
             // 依赖注入，将自定义的授权处理器 匹配给官方授权处理器接口，这样当系统处理授权的时候，就会直接访问我们自定义的授权处理器了。
             services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
             // 将授权必要类注入生命周期内
             services.AddSingleton(permissionRequirement);
 
             #endregion
-
 
             services.AddCors(c =>
             {
@@ -174,65 +178,17 @@ namespace WinRT.Core
                     .AllowAnyHeader()//Ensures that the policy allows any header.
                     .AllowAnyMethod();
                 });
-            });
-
-            //读取配置文件
-            //var audienceConfig = Configuration.GetSection("Audience");
-            //var symmetricKeyAsBase64 = AppSecretConfig.Audience_Secret_String;
-            //var keyByteArray = Encoding.ASCII.GetBytes(symmetricKeyAsBase64);
-            //var signingKey = new SymmetricSecurityKey(keyByteArray);
-
-            //var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
-
-            //// 配置认证服务
-            //// 令牌验证参数
-            //var tokenValidationParameters = new TokenValidationParameters
-            //{  //  3+2的形式
-
-            //    ValidateIssuerSigningKey = true, // 开启验证密钥
-            //    IssuerSigningKey = signingKey, // 验证密钥
-
-            //    ValidateIssuer = true,
-            //    ValidIssuer = audienceConfig["Issuer"],//验证发行人
-
-            //    ValidateAudience = true,
-            //    ValidAudience = audienceConfig["Audience"],//验证订阅人
-
-            //    // 注意这是缓冲过期时间，总的有效时间等于这个时间加上jwt的过期时间，如果不配置，默认是5分钟
-            //    ClockSkew = TimeSpan.FromSeconds(30),
-            //    ValidateLifetime = true,// 是否验证超时  当设置exp和nbf时有效 同时启用ClockSkew 
-            //    RequireExpirationTime = true, // 要求验证过期时间
-            //};
-
-            ////2.1【认证】、core自带官方JWT认证
-            //// 开启Bearer认证
-            //// services.AddAuthentication("Bearer")
-            //services.AddAuthentication(x =>
-            //{
-            //    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //})
-            // // 添加JwtBearer服务
-            // .AddJwtBearer(o =>
-            // {
-            //     o.TokenValidationParameters = tokenValidationParameters;
-            //     o.Events = new JwtBearerEvents
-            //     {
-            //         OnAuthenticationFailed = context =>
-            //         {
-            //             // 如果过期，则把<是否过期>添加到，返回头信息中
-            //             if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-            //             {
-            //                 context.Response.Headers.Add("Token-Expired", "true");
-            //             }
-            //             return Task.CompletedTask;
-            //         }
-            //     };
-            // });
+            });     
+            // 把appsettings.json数据绑定到AppSettingDatas对象中，然后注入进容器
+            Rootobject rootobject = new Rootobject();
+            // json数据匹配到类
+            Configuration.Bind(rootobject);
+            // 注入到生命周期内
+            services.AddSingleton(rootobject);
 
             services.AddControllers();
-        }
 
+        }
 
         // 注意在Program.CreateHostBuilder，添加Autofac服务工厂
         public void ConfigureContainer(ContainerBuilder builder)
@@ -251,6 +207,9 @@ namespace WinRT.Core
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Ip限流,尽量放管道外层
+            app.UseIpRateLimiting();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -275,5 +234,7 @@ namespace WinRT.Core
                 endpoints.MapControllers();
             });
         }
+
+
     }
 }

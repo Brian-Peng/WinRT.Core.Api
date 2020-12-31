@@ -64,6 +64,11 @@
             配置构造函数，用来创建关系映射
             </summary>
         </member>
+        <member name="T:WinRT.Core.Api.Extensions.IpPolicyRateLimitSetup">
+            <summary>
+            IPLimit限流 启动服务
+            </summary>
+        </member>
         <member name="T:WinRT.Core.Authorizations.Policys.JwtToken">
             <summary>
             JWTToken生成类
@@ -315,6 +320,11 @@
              Main方法里面的内容主要是用来配置和运行程序的。
             </summary>
             <param name="args"></param>
+        </member>
+        <member name="P:WinRT.Core.Startup.Configuration">
+            <summary>
+             用来操作appsettings.json的接口
+            </summary>
         </member>
     </members>
 </doc>
