@@ -17,3 +17,5 @@
   - AOP拦截器：AOP处理日志、AOP内存缓存（采用缓存特性）
   - 提供 Redis 做缓存处理
   - 使用 Log4Net 日志框架，集成原生 ILogger 接口做日志记录
+  - 添加 IpRateLimiting 做 服务端 API 限流处理
+  - 全局异常过滤器，自定义记录异常
