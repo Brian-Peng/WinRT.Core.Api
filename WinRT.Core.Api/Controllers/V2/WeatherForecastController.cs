@@ -71,8 +71,10 @@ namespace WinRT.Core.Controllers.V2
         [CustomRoute(ApiVersions.V2, "GetAdvertisement1")]
         public async Task<IList<Advertisement>> GetAdvertisement1(int id)
         {
-            _logger.LogInformation("进入了GetAdvertisement1方法");
-            _logger.LogError("这是一个错误");
+            //_logger.LogInformation("进入了GetAdvertisement1方法");
+            //_logger.LogError("这是一个错误");
+            throw new Exception();
+
             return await _advertisementServices.GetAdvertisement(id);
         }
 

@@ -31,7 +31,17 @@ namespace WinRT.Core.Api.AOP
                 $"【携带的参数有】： {string.Join(", ", invocation.Arguments.Select(a => (a ?? "").ToString()).ToArray())} \r\n";
 
             // 执行当前访问的services层中的方法,(注意:如果下边还有其他的AOP拦截器的话,会跳转到其他的AOP里)
-            invocation.Proceed();
+          //  invocation.Proceed();
+
+            try
+            {
+                invocation.Proceed();
+            }
+            catch (Exception e)
+            {
+                //捕获service 中的异常
+                dataIntercept += ($"方法执行中出现异常：{e.Message + e.InnerException}");
+            }
 
             // 事后方法: 在services层中的方法被执行了以后,做相应的处理,这里是输出到日志文件
             dataIntercept += ($"【执行完成结果】：{invocation.ReturnValue}");

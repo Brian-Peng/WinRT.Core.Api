@@ -69,6 +69,35 @@
             IPLimit限流 启动服务
             </summary>
         </member>
+        <member name="T:WinRT.Core.Api.Filter.GlobalExceptionsFilter">
+            <summary>
+            全局异常过滤器，自定义记录异常
+            </summary>
+        </member>
+        <member name="M:WinRT.Core.Api.Filter.GlobalExceptionsFilter.OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
+            <summary>
+             在一个动作引发System.Exception之后调用
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:WinRT.Core.Api.Filter.GlobalExceptionsFilter.WriteLog(System.String,System.Exception)">
+            <summary>
+            自定义返回格式
+            </summary>
+            <param name="throwMsg"></param>
+            <param name="ex"></param>
+            <returns></returns>
+        </member>
+        <member name="P:WinRT.Core.Api.Filter.GlobalExceptionsFilter.JsonErrorResponse.Message">
+            <summary>
+            生产环境的消息
+            </summary>
+        </member>
+        <member name="P:WinRT.Core.Api.Filter.GlobalExceptionsFilter.JsonErrorResponse.DevelopmentMessage">
+            <summary>
+            开发环境的消息
+            </summary>
+        </member>
         <member name="T:WinRT.Core.Authorizations.Policys.JwtToken">
             <summary>
             JWTToken生成类

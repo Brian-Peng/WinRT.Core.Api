@@ -29,6 +29,7 @@ using StackExchange.Redis;
 using AutoMapper;
 using WinRT.Core.Api.AutoMapper;
 using AspNetCoreRateLimit;
+using WinRT.Core.Api.Filter;
 
 namespace WinRT.Core
 {
@@ -51,7 +52,6 @@ namespace WinRT.Core
             services.AddIpPolicyRateLimitSetup(Configuration);
 
             // 注入模型映射服务
-            //services.AddAutoMapper(typeof(Startup));//这是AutoMapper的2.0新特性
             services.AddAutoMapperSetup();
 
             // 注入内存服务
@@ -179,6 +179,7 @@ namespace WinRT.Core
                     .AllowAnyMethod();
                 });
             });     
+
             // 把appsettings.json数据绑定到AppSettingDatas对象中，然后注入进容器
             Rootobject rootobject = new Rootobject();
             // json数据匹配到类
@@ -186,7 +187,17 @@ namespace WinRT.Core
             // 注入到生命周期内
             services.AddSingleton(rootobject);
 
-            services.AddControllers();
+            // services.AddControllers();
+
+            services.AddControllers(o =>
+            {
+                // 全局异常过滤
+                o.Filters.Add(typeof(GlobalExceptionsFilter));
+                // 全局路由权限公约
+                //o.Conventions.Insert(0, new GlobalRouteAuthorizeConvention());
+                // 全局路由前缀，统一修改路由
+                //o.Conventions.Insert(0, new GlobalRoutePrefixFilter(new RouteAttribute(RoutePrefix.Name)));
+            });
 
         }
 
