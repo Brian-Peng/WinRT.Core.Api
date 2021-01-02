@@ -39,7 +39,7 @@ namespace WinRT.Core.Api.AOP
             }
             catch (Exception e)
             {
-                //捕获service 中的异常
+                //基于AOP，捕获service 中的异常
                 dataIntercept += ($"方法执行中出现异常：{e.Message + e.InnerException}");
             }
 

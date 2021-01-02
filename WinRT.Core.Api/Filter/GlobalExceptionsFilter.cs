@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace WinRT.Core.Api.Filter
 {
     /// <summary>
-    /// 全局异常过滤器，自定义记录异常
+    /// 全局异常过滤器
     /// </summary>
     public class GlobalExceptionsFilter: IExceptionFilter
     {

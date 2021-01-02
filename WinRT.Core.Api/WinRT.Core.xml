@@ -71,7 +71,7 @@
         </member>
         <member name="T:WinRT.Core.Api.Filter.GlobalExceptionsFilter">
             <summary>
-            全局异常过滤器，自定义记录异常
+            全局异常过滤器
             </summary>
         </member>
         <member name="M:WinRT.Core.Api.Filter.GlobalExceptionsFilter.OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
