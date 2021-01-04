@@ -1,4 +1,4 @@
-# WinRT.Core.Api
+# WinRT.Core.Api（对Blog.Core 开箱即用的企业级前后端分离【 .NET Core5.0 Api + Vue 2.x + RBAC】权限框架的学习研究）
  
 ## 开发基于.netCore Api 3.1后台框架
 
@@ -19,3 +19,4 @@
   - 使用 Log4Net 日志框架，集成原生 ILogger 接口做日志记录
   - 添加 IpRateLimiting 做 服务端 API 限流处理
   - 全局异常过滤器
+
