@@ -264,6 +264,29 @@
             V2 版本
             </summary>
         </member>
+        <member name="T:WinRT.Core.Helper.CustomRouteAttribute">
+            <summary>
+            自定义路由 /api/{version}/[controler]/[action]
+            </summary>
+        </member>
+        <member name="P:WinRT.Core.Helper.CustomRouteAttribute.GroupName">
+            <summary>
+            分组名称,是来实现接口 IApiDescriptionGroupNameProvider
+            </summary>
+        </member>
+        <member name="M:WinRT.Core.Helper.CustomRouteAttribute.#ctor(System.String)">
+            <summary>
+            自定义路由构造函数，继承基类路由
+            </summary>
+            <param name="actionName"></param>
+        </member>
+        <member name="M:WinRT.Core.Helper.CustomRouteAttribute.#ctor(WinRT.Core.Extensions.CustomApiVersion.ApiVersions,System.String)">
+            <summary>
+            自定义版本+路由构造函数，继承基类路由
+            </summary>
+            <param name="actionName"></param>
+            <param name="version"></param>
+        </member>
         <member name="T:WinRT.Core.Helper.AppSecretConfig">
             <summary>
             自动读取项目配置文件 appsettings.json 。
@@ -288,29 +311,6 @@
             <typeparam name="T"></typeparam>
             <param name="sections"></param>
             <returns></returns>
-        </member>
-        <member name="T:WinRT.Core.Helper.CustomRouteAttribute">
-            <summary>
-            自定义路由 /api/{version}/[controler]/[action]
-            </summary>
-        </member>
-        <member name="P:WinRT.Core.Helper.CustomRouteAttribute.GroupName">
-            <summary>
-            分组名称,是来实现接口 IApiDescriptionGroupNameProvider
-            </summary>
-        </member>
-        <member name="M:WinRT.Core.Helper.CustomRouteAttribute.#ctor(System.String)">
-            <summary>
-            自定义路由构造函数，继承基类路由
-            </summary>
-            <param name="actionName"></param>
-        </member>
-        <member name="M:WinRT.Core.Helper.CustomRouteAttribute.#ctor(WinRT.Core.Extensions.CustomApiVersion.ApiVersions,System.String)">
-            <summary>
-            自定义版本+路由构造函数，继承基类路由
-            </summary>
-            <param name="actionName"></param>
-            <param name="version"></param>
         </member>
         <member name="M:WinRT.Core.Helper.JwtHelper.IssueJwt(WinRT.Core.Helper.JwtHelper.TokenModelJwt)">
             <summary>

@@ -1,35 +1,27 @@
+using AspNetCoreRateLimit;
 using Autofac;
-using Autofac.Extras.DynamicProxy;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
-using WinRT.Core.Extensions;
-using WinRT.Core.Authorizations.Policys;
-using WinRT.Core.Helper;
-
-using WinRT.Core.IServices;
-using WinRT.Core.Api.Extensions;
-using WinRT.Core.Api.AOP;
-using WinRT.Core.Common.MemoryCache;
-using Microsoft.Extensions.Caching.Memory;
-using WinRT.Core.Common.Redis;
-using StackExchange.Redis;
-using AutoMapper;
 using WinRT.Core.Api.AutoMapper;
-using AspNetCoreRateLimit;
+using WinRT.Core.Api.Extensions;
 using WinRT.Core.Api.Filter;
+using WinRT.Core.Authorizations.Policys;
+using WinRT.Core.Common.MemoryCache;
+using WinRT.Core.Common.Redis;
+using WinRT.Core.Extensions;
+using WinRT.Core.Helper;
 
 namespace WinRT.Core
 {
@@ -187,28 +179,17 @@ namespace WinRT.Core
             // 注入到生命周期内
             services.AddSingleton(rootobject);
 
-            // services.AddControllers();
-
             services.AddControllers(o =>
             {
                 // 全局异常过滤
-                o.Filters.Add(typeof(GlobalExceptionsFilter));
-                // 全局路由权限公约
-                //o.Conventions.Insert(0, new GlobalRouteAuthorizeConvention());
-                // 全局路由前缀，统一修改路由
-                //o.Conventions.Insert(0, new GlobalRoutePrefixFilter(new RouteAttribute(RoutePrefix.Name)));
+                o.Filters.Add(typeof(GlobalExceptionsFilter));       
             });
-
         }
 
         // 注意在Program.CreateHostBuilder，添加Autofac服务工厂
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            //builder.RegisterType<LogAOP>();//可以直接替换其他拦截器！一定要把拦截器进行注册
-            //builder.RegisterType<CacheAOP>();//可以直接替换其他拦截器！一定要把拦截器进行注册
-
             builder.RegisterModule(new AutofacModuleRegister());
-
             //直接注册某一个类和接口
             //左边的是实现类，右边的As是接口
             //builder.RegisterType<AdvertisementServices>().As<IAdvertisementServices>();
