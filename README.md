@@ -1,4 +1,5 @@
-# WinRT.Core.Api（对Blog.Core 开箱即用的企业级前后端分离【 .NET Core5.0 Api + Vue 2.x + RBAC】权限框架的学习研究）
+# 注：本人对Blog.Core 开箱即用的企业级前后端分离【 .NET Core5.0 Api + Vue 2.x + RBAC】权限框架的学习研究）
+# WinRT.Core.Api 
  
 ## 开发基于.netCore Api 3.1后台框架
 
