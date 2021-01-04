@@ -127,6 +127,11 @@
             services 层注入
             </summary>
         </member>
+        <member name="F:WinRT.Core.Authorizations.Policys.PermissionHandler._httpContextAccessor">
+            <summary>
+            IHttp上下文访问器接口，提供对当前HttpContext的访问
+            </summary>
+        </member>
         <member name="M:WinRT.Core.Authorizations.Policys.PermissionHandler.#ctor(Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider,WinRT.Core.IServices.IRoleModulePermissionServices,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
             <summary>
             构造函数注入

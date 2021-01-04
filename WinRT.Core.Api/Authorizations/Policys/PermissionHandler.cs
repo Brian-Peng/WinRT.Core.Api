@@ -28,6 +28,9 @@ namespace WinRT.Core.Authorizations.Policys
         /// </summary>
         public IRoleModulePermissionServices _roleModulePermissionServices { get; set; }
 
+        /// <summary>
+        /// IHttp上下文访问器接口，提供对当前HttpContext的访问
+        /// </summary>
         private readonly IHttpContextAccessor _httpContextAccessor;
 
        /// <summary>

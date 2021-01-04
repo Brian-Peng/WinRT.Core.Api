@@ -18,6 +18,10 @@ namespace WinRT.Core.Api.Controllers
         
         }
 
+        /// <summary>
+        ///  这个数据库有配置权限
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize("Permission")]
         public string Get()
@@ -25,6 +29,10 @@ namespace WinRT.Core.Api.Controllers
             return "测试Permission";
         }
 
+        /// <summary>
+        ///  这个数据库没有配置权限
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("Get1")]
         [Authorize("Permission")]

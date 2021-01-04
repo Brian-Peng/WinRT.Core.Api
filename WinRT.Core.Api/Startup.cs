@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,6 +42,7 @@ namespace WinRT.Core
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // 注入服务端Ip限流
             services.AddIpPolicyRateLimitSetup(Configuration);
 
             // 注入模型映射服务
@@ -54,7 +56,9 @@ namespace WinRT.Core
                 return cache;
             });
 
-            services.AddHttpContextAccessor();
+          
+           // 注入Http上下文访问器
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); // 或者 services.AddHttpContextAccessor();
 
             // 注入 appsettings.json操作类
             services.AddSingleton(new Helper.Appsettings(Configuration));
@@ -157,6 +161,7 @@ namespace WinRT.Core
 
             #endregion
 
+            // Cors  跨域
             services.AddCors(c =>
             {
                 //一般采用这种方法
@@ -179,6 +184,7 @@ namespace WinRT.Core
             // 注入到生命周期内
             services.AddSingleton(rootobject);
 
+            // 注入控制器服务
             services.AddControllers(o =>
             {
                 // 全局异常过滤
