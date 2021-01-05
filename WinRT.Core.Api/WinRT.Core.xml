@@ -64,6 +64,28 @@
             配置构造函数，用来创建关系映射
             </summary>
         </member>
+        <member name="F:WinRT.Core.Api.Controllers.BlogController._httpContextAccessor">
+            <summary>
+            IHttp上下文访问器接口，提供对当前HttpContext的访问
+            </summary>
+        </member>
+        <member name="F:WinRT.Core.Api.Controllers.ValuesController._httpContextAccessor">
+            <summary>
+            IHttp上下文访问器接口，提供对当前HttpContext的访问
+            </summary>
+        </member>
+        <member name="M:WinRT.Core.Api.Controllers.ValuesController.Get">
+            <summary>
+             这个数据库有配置权限
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WinRT.Core.Api.Controllers.ValuesController.Get1">
+            <summary>
+             这个数据库没有配置权限
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:WinRT.Core.Api.Extensions.IpPolicyRateLimitSetup">
             <summary>
             IPLimit限流 启动服务

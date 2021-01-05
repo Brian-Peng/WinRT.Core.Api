@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,15 @@ namespace WinRT.Core.Api.Controllers
     public class BlogController
     {
         private readonly IBlogArticleServices _blogArticleServices;
+        /// <summary>
+        /// IHttp上下文访问器接口，提供对当前HttpContext的访问
+        /// </summary>
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public BlogController(IBlogArticleServices blogArticleServices)
+        public BlogController(IBlogArticleServices blogArticleServices, IHttpContextAccessor httpContextAccessor)
         {
             _blogArticleServices = blogArticleServices;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet("{id}", Name = "Get")]

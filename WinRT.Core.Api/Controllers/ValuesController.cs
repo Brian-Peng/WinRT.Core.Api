@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,14 @@ namespace WinRT.Core.Api.Controllers
 
     public class ValuesController:ControllerBase
     {
-        public ValuesController()
-        { 
-        
+        /// <summary>
+        /// IHttp上下文访问器接口，提供对当前HttpContext的访问
+        /// </summary>
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public ValuesController(IHttpContextAccessor httpContextAccessor)
+        {
+            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
