@@ -91,6 +91,11 @@
             IPLimit限流 启动服务
             </summary>
         </member>
+        <member name="T:WinRT.Core.Api.Extensions.RedisCacheSetup">
+            <summary>
+            Redis缓存 启动服务
+            </summary>
+        </member>
         <member name="T:WinRT.Core.Api.Filter.GlobalExceptionsFilter">
             <summary>
             全局异常过滤器
