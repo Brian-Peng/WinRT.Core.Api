@@ -86,6 +86,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:WinRT.Core.Api.Controllers.ValuesController.RedisMq">
+            <summary>
+             定义发布者
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:WinRT.Core.Api.Extensions.IpPolicyRateLimitSetup">
             <summary>
             IPLimit限流 启动服务
@@ -94,6 +100,11 @@
         <member name="T:WinRT.Core.Api.Extensions.RedisCacheSetup">
             <summary>
             Redis缓存 启动服务
+            </summary>
+        </member>
+        <member name="T:WinRT.Core.Api.Extensions.RedisInitMqSetup">
+            <summary>
+            Redis 消息队列 启动服务
             </summary>
         </member>
         <member name="T:WinRT.Core.Api.Filter.GlobalExceptionsFilter">

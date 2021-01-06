@@ -64,22 +64,8 @@ namespace WinRT.Core
             services.AddSingleton(new Helper.Appsettings(Configuration));
             services.AddSwaggerSetup();
 
-            //// 注入redis接口和类
-            //services.AddTransient<IRedisBasketRepository, RedisBasketRepository>();
-            //// 配置启动Redis服务，虽然可能影响项目启动速度，但是不能在运行的时候报错，所以是合理的
-            //services.AddSingleton(sp =>
-            //{
-            //    //获取连接字符串
-            //    string redisConfiguration = Helper.Appsettings.app(new string[] { "Redis", "ConnectionString" });
-
-            //    var configuration = ConfigurationOptions.Parse(redisConfiguration, true);
-
-            //    configuration.ResolveDns = true;
-
-            //    return ConnectionMultiplexer.Connect(configuration);
-            //});
-
             services.AddRedisCacheSetup();
+            services.AddRedisInitMqSetup();
 
             #region JWT Token Service
             //读取配置文件

@@ -11,7 +11,7 @@ namespace WinRT.Core.Api.Extensions
         public string AllowedHosts { get; set; }
         public Startup Startup { get; set; }
         public Audience Audience { get; set; }
-        public Appsettings AppSettings { get; set; }
+      //  public Appsettings AppSettings { get; set; }
         public Redis Redis { get; set; }
     }
 
@@ -40,12 +40,12 @@ namespace WinRT.Core.Api.Extensions
         //  public string Audience { get; set; }
     }
 
-    public class Appsettings
-    {
-        public Rediscachingaop RedisCachingAOP { get; set; }
-        public Memorycachingaop MemoryCachingAOP { get; set; }
-        public Logaop LogAOP { get; set; }
-    }
+    //public class Appsettings
+    //{
+    //    public Rediscachingaop RedisCachingAOP { get; set; }
+    //    public Memorycachingaop MemoryCachingAOP { get; set; }
+    //    public Logaop LogAOP { get; set; }
+    //}
 
     public class Rediscachingaop
     {

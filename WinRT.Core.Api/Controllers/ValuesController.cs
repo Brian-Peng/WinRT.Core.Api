@@ -5,13 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WinRT.Core.Common.GlobalVar;
+using WinRT.Core.Common.Redis;
 
 namespace WinRT.Core.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
-
-
     public class ValuesController:ControllerBase
     {
         /// <summary>
@@ -19,9 +19,12 @@ namespace WinRT.Core.Api.Controllers
         /// </summary>
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ValuesController(IHttpContextAccessor httpContextAccessor)
+        private readonly IRedisBasketRepository _redisBasketRepository;
+
+        public ValuesController(IHttpContextAccessor httpContextAccessor, IRedisBasketRepository redisBasketRepository)
         {
             _httpContextAccessor = httpContextAccessor;
+            _redisBasketRepository = redisBasketRepository;
         }
 
         /// <summary>
@@ -60,6 +63,18 @@ namespace WinRT.Core.Api.Controllers
         public ActionResult TestCORSForVue()
         {
             return Ok("TestCORS");
+        }
+
+        /// <summary>
+        ///  定义发布者
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task RedisMq()
+        {
+            var msg = "这里是一条日志";
+            await _redisBasketRepository.ListLeftPushAsync(RedisMqKey.Loging, msg);
         }
     }
 }
