@@ -20,4 +20,4 @@
   - 使用 Log4Net 日志框架，集成原生 ILogger 接口做日志记录
   - 添加 IpRateLimiting 做 服务端 API 限流处理
   - 全局异常过滤器
-
+  - 基于Redis的消息队列
