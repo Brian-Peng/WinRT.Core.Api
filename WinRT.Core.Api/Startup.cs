@@ -10,9 +10,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using StackExchange.Profiling.Storage;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using WinRT.Core.Api.AutoMapper;
@@ -178,6 +180,9 @@ namespace WinRT.Core
                 // 全局异常过滤
                 o.Filters.Add(typeof(GlobalExceptionsFilter));       
             });
+
+            // 接口性能分析
+            services.AddMiniProfiler();
         }
 
         // 注意在Program.CreateHostBuilder，添加Autofac服务工厂
@@ -201,10 +206,15 @@ namespace WinRT.Core
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSwaggerMildd();
+            //app.UseSwaggerMildd();
+            // 封装Swagger展示
+            app.UseSwaggerMildd(() => GetType().GetTypeInfo().Assembly.GetManifestResourceStream("WinRT.Core.Api.index.html"));
 
             //将 CORS 中间件添加到 web 应用程序管线中, 以允许跨域请求。
             app.UseCors("LimitRequests");
+
+            // 使用静态文件
+            app.UseStaticFiles();
 
             app.UseRouting();
 
@@ -214,13 +224,14 @@ namespace WinRT.Core
             // 开启授权中间件
             app.UseAuthorization();
 
+            // 性能分析
+            app.UseMiniProfiler();
+
             // 这个是一个短路中间件，表示 http 请求到了这里就不往下走了. 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
         }
-
-
     }
 }

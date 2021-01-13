@@ -1,4 +1,5 @@
 ﻿using Castle.DynamicProxy;
+using StackExchange.Profiling;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,15 +31,15 @@ namespace WinRT.Core.Api.AOP
                 $"【当前执行方法】：{ invocation.Method.Name} \r\n" +
                 $"【携带的参数有】： {string.Join(", ", invocation.Arguments.Select(a => (a ?? "").ToString()).ToArray())} \r\n";
 
-            // 执行当前访问的services层中的方法,(注意:如果下边还有其他的AOP拦截器的话,会跳转到其他的AOP里)
-          //  invocation.Proceed();
-
             try
             {
+                MiniProfiler.Current.Step($"执行Service方法：{invocation.Method.Name}() -> ");
                 invocation.Proceed();
             }
             catch (Exception e)
             {
+                //执行的 service 中，收录异常
+                MiniProfiler.Current.CustomTiming("Errors：", e.Message);
                 //基于AOP，捕获service 中的异常
                 dataIntercept += ($"方法执行中出现异常：{e.Message + e.InnerException}");
             }
