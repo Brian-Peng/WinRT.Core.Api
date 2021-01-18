@@ -15,9 +15,10 @@
   - 使用AutoFac 做依赖注入容器，并提供批量服务注入
   - 支持CORS跨域
   - 封装JWT自定义策略授权
-  - AOP拦截器：AOP处理日志、AOP内存缓存（采用缓存特性）、AOP记录服务层异常
+  - AOP拦截器：AOP处理日志、AOP内存缓存（采用缓存特性）、AOP记录服务层异常、
   - 提供 Redis 做缓存处理
   - 使用 Log4Net 日志框架，集成原生 ILogger 接口做日志记录
   - 添加 IpRateLimiting 做 服务端 API 限流处理
   - 全局异常过滤器
   - 基于Redis的消息队列
+  - MiniProfiler 接口性能分析
